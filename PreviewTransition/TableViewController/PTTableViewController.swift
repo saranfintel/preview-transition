@@ -71,11 +71,14 @@ public extension PTTableViewController {
 
         currentCell.openCell(tableView, duration: duration)
         moveCells(tableView, currentCell: currentCell, duration: duration)
-        if let bgImage = currentCell.bgImage?.image {
-            viewController.bgImage = bgImage
-        }
+//        if let bgImage = currentCell.bgImage?.image {
+//            viewController.bgImage = bgImage
+//        }
         if let text = currentCell.parallaxTitle?.text {
             viewController.titleText = text
+        }
+        if let bgColor = currentCell.bgColor {
+            viewController.backgroundColor = bgColor
         }
         delay(duration) {
             navigationController.pushViewController(viewController, animated: false)

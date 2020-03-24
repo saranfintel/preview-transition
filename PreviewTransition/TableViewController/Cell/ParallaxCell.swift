@@ -54,6 +54,7 @@ open class ParallaxCell: UITableViewCell {
 
     open var bgImage: UIImageView?
     open var parallaxTitle: UILabel?
+    open var bgColor: UIColor?
 
     /// The foreground view’s background color.
     @IBInspectable open var foregroundColor: UIColor = UIColor.black {
@@ -179,7 +180,7 @@ public extension ParallaxCell {
      - parameter image: The image object which set to the backgroundImageView
      - parameter title: The text to be displayed in the Cell
      */
-    func setImage(_ image: UIImage, title: String) {
+    func setImage(_ image: UIImage, title: String ) {
         bgImage?.image = image
         parallaxTitle?.text = title
     }

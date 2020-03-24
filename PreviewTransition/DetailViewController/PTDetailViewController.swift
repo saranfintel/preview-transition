@@ -39,8 +39,8 @@ extension PTDetailViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        backgroundImageView = createBackgroundImage(bgImage)
-        view.backgroundColor = .black
+//        backgroundImageView = createBackgroundImage(bgImage)
+//        view.backgroundColor = .white
 
         if let titleText = self.titleText {
             title = titleText
