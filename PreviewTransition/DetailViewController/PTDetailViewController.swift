@@ -26,11 +26,10 @@ import UIKit
 /// Base UIViewController for preview transition
 open class PTDetailViewController: UIViewController {
 
-    var bgImage: UIImage?
     var titleText: String?
     var bgColor: UIColor?
 
-    fileprivate var backgroundImageView: UIImageView?
+    fileprivate var backgroundView: UIView?
 }
 
 // MARK: life cicle
@@ -39,9 +38,7 @@ extension PTDetailViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-
-//        backgroundImageView = createBackgroundImage(bgImage)
-        view.backgroundColor = bgColor
+        backgroundView = createBackgroundView(bgColor)
 
         if let titleText = self.titleText {
             title = titleText
@@ -79,17 +76,16 @@ extension PTDetailViewController {
 // MARK: create
 
 extension PTDetailViewController {
-
-    fileprivate func createBackgroundImage(_ image: UIImage?) -> UIImageView {
-
-        let imageView = UIImageView(frame: CGRect.zero)
-        imageView.image = image
-        imageView.frame = view.bounds
-        imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        imageView.contentMode = UIView.ContentMode.scaleAspectFill
-        view.insertSubview(imageView, at: 0)
-
-        return imageView
+    
+    open func createBackgroundView(_ image: UIColor?) -> UIView {
+        let backgroundView = UIView(frame: CGRect.zero)
+        backgroundView.backgroundColor = image
+        backgroundView.alpha = 0.5
+        backgroundView.frame = view.bounds
+        backgroundView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        backgroundView.contentMode = UIView.ContentMode.scaleAspectFill
+        view.insertSubview(backgroundView, at: 0)
+        return backgroundView
     }
 
     fileprivate func createNavBar(_ color: UIColor) -> UIView {

@@ -68,16 +68,12 @@ public extension PTTableViewController {
 
         currentTextLabel = createTitleLable(currentCell)
         currentTextLabel?.move(duration, direction: .up, completion: nil)
-
         currentCell.openCell(tableView, duration: duration)
         moveCells(tableView, currentCell: currentCell, duration: duration)
-//        if let bgImage = currentCell.bgImage?.image {
-//            viewController.bgImage = bgImage
-//        }
         if let text = currentCell.parallaxTitle?.text {
             viewController.titleText = text
         }
-        if let bgColor = currentCell.bgColor {
+        if let bgColor = currentCell.bgView?.backgroundColor {
             viewController.bgColor = bgColor
         }
         delay(duration) {

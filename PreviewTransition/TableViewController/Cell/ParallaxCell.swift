@@ -52,12 +52,11 @@ open class ParallaxCell: UITableViewCell {
     /// parallax offset
     @IBInspectable open var difference: CGFloat = 100 // image parallax
 
-    open var bgImage: UIImageView?
+    open var bgView: UIView?
     open var parallaxTitle: UILabel?
-    open var bgColor: UIColor?
 
     /// The foreground view’s background color.
-    @IBInspectable open var foregroundColor: UIColor = UIColor.black {
+    @IBInspectable open var foregroundColor: UIColor = UIColor.red {
         didSet {
             foregroundView?.backgroundColor = foregroundColor
         }
@@ -114,31 +113,27 @@ extension ParallaxCell {
         layer.masksToBounds = false
         selectionStyle = .none
 
-        // create background image view
-        let backgroundImageView = createBckgroundImage()
+        let backgroundView = createBckgroundView()
 
         // add constraints
-        if let bgSuperView = backgroundImageView.superview {
+        if let bgSuperView = backgroundView.superview {
             for attribute: NSLayoutConstraint.Attribute in [.leading, .trailing] {
-                (bgSuperView, backgroundImageView) >>>- {
+                (bgSuperView, backgroundView) >>>- {
                     $0.attribute = attribute
                     return
                 }
             }
-            bgImageY = (bgSuperView, backgroundImageView) >>>- {
+            bgImageY = (bgSuperView, backgroundView) >>>- {
                 $0.attribute = .centerY
                 return
             }
-            bgImageHeight = backgroundImageView >>>- {
+            bgImageHeight = backgroundView >>>- {
                 $0.attribute = .height
                 $0.constant = bounds.height + difference
                 return
             }
         }
-        bgImage = backgroundImageView
-
-        foregroundView = createForegroundView(foregroundColor)
-        contentView.backgroundColor = UIColor.black
+        bgView = backgroundView
 
         // create title label
         let titleLabel = createTitleLable()
@@ -159,7 +154,7 @@ extension ParallaxCell {
         }
         parallaxTitle = titleLabel
 
-        separatorView = createSeparator(.black, height: 2.0, verticalAttribure: .bottom, verticalConstant: 0.0)
+        separatorView = createSeparator(.black, height: 1.0, verticalAttribure: .bottom, verticalConstant: 0.0)
     }
 
     open override func prepareForReuse() {
@@ -180,8 +175,7 @@ public extension ParallaxCell {
      - parameter image: The image object which set to the backgroundImageView
      - parameter title: The text to be displayed in the Cell
      */
-    func setImage(_ image: UIImage, title: String ) {
-        bgImage?.image = image
+    func setImage(_ image: UIImage, title: String) {
         parallaxTitle?.text = title
     }
 }
@@ -234,7 +228,7 @@ extension ParallaxCell {
         bgImageHeight?.constant = closedHeight
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: damping, initialSpringVelocity: 0, options: UIView.AnimationOptions(), animations: { [weak self] () in
             guard let `self` = self else { return }
-            self.bgImage?.superview?.layoutIfNeeded()
+            self.bgView?.superview?.layoutIfNeeded()
             self.center = CGPoint(x: self.center.x, y: self.closedYPosition)
         }, completion: { [weak self] _ in
 
@@ -281,7 +275,7 @@ extension ParallaxCell {
         bgImageY?.constant = 0
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 0.78, initialSpringVelocity: 0, options: UIView.AnimationOptions(), animations: { () -> Void in
             self.frame.origin.y = offset
-            self.bgImage?.superview?.layoutIfNeeded()
+            self.bgView?.superview?.layoutIfNeeded()
         }, completion: nil)
     }
 
@@ -331,8 +325,8 @@ extension ParallaxCell {
 // MARK: create
 
 extension ParallaxCell {
-
-    fileprivate func createBckgroundImage() -> UIImageView {
+    
+    fileprivate func createBckgroundView() -> UIView {
 
         let container = UIView(frame: contentView.bounds)
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -346,11 +340,11 @@ extension ParallaxCell {
             }
         }
 
-        let imageView = UIImageView(frame: container.bounds)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        container.addSubview(imageView)
-        return imageView
+        let view = UIView(frame: container.bounds)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        container.backgroundColor = .clear
+        container.addSubview(view)
+        return view
     }
 
     fileprivate func createTitleLable() -> UILabel {
@@ -375,33 +369,33 @@ extension ParallaxCell {
 
 extension ParallaxCell {
 
-    fileprivate func createForegroundView(_ color: UIColor) -> UIView {
-        guard let bgImage = self.bgImage else {
-            fatalError("set bgImage")
-        }
-
-        let foregroundView = UIView()
-        foregroundView.alpha = foregroundAlpha
-        foregroundView.backgroundColor = color
-        foregroundView.translatesAutoresizingMaskIntoConstraints = false
-
-        contentView.insertSubview(foregroundView, aboveSubview: bgImage)
-
-        // add constraints
-        for attribute: NSLayoutConstraint.Attribute in [.left, .right, .top] {
-            (contentView, foregroundView) >>>- {
-                $0.attribute = attribute
-                return
-            }
-        }
-        (contentView, foregroundView) >>>- {
-            $0.attribute = .bottom
-            $0.identifier = C.Constraints.bottom
-            return
-        }
-
-        return foregroundView
-    }
+//    fileprivate func createForegroundView(_ color: UIColor) -> UIView {
+//        guard let bgImage = self.bgImage else {
+//            fatalError("set bgImage")
+//        }
+//
+//        let foregroundView = UIView()
+//        foregroundView.alpha = foregroundAlpha
+//        foregroundView.backgroundColor = color
+//        foregroundView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        contentView.insertSubview(foregroundView, aboveSubview: bgImage)
+//
+//        // add constraints
+//        for attribute: NSLayoutConstraint.Attribute in [.left, .right, .top] {
+//            (contentView, foregroundView) >>>- {
+//                $0.attribute = attribute
+//                return
+//            }
+//        }
+//        (contentView, foregroundView) >>>- {
+//            $0.attribute = .bottom
+//            $0.identifier = C.Constraints.bottom
+//            return
+//        }
+//
+//        return foregroundView
+//    }
 
     // return bottom constraint
     fileprivate func createSeparator(_ color: UIColor, height: CGFloat, verticalAttribure: NSLayoutConstraint.Attribute, verticalConstant: CGFloat) -> UIView {
