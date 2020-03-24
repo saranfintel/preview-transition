@@ -52,8 +52,8 @@ open class ParallaxCell: UITableViewCell {
     /// parallax offset
     @IBInspectable open var difference: CGFloat = 100 // image parallax
 
-    var bgImage: UIImageView?
-    var parallaxTitle: UILabel?
+    open var bgImage: UIImageView?
+    open var parallaxTitle: UILabel?
 
     /// The foreground view’s background color.
     @IBInspectable open var foregroundColor: UIColor = UIColor.black {
