@@ -28,6 +28,7 @@ open class PTDetailViewController: UIViewController {
 
     var bgImage: UIImage?
     var titleText: String?
+    var bgColor: UIColor?
 
     fileprivate var backgroundImageView: UIImageView?
 }
@@ -40,7 +41,7 @@ extension PTDetailViewController {
         super.viewDidLoad()
 
 //        backgroundImageView = createBackgroundImage(bgImage)
-//        view.backgroundColor = .white
+        view.backgroundColor = bgColor
 
         if let titleText = self.titleText {
             title = titleText

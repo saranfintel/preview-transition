@@ -78,7 +78,7 @@ public extension PTTableViewController {
             viewController.titleText = text
         }
         if let bgColor = currentCell.bgColor {
-            viewController.backgroundColor = bgColor
+            viewController.bgColor = bgColor
         }
         delay(duration) {
             navigationController.pushViewController(viewController, animated: false)
