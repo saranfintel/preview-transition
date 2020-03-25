@@ -210,7 +210,7 @@ extension ParallaxCell {
             let bgImageHeight = self.bgImageHeight else {
             return
         }
-
+        parallaxTitle?.isHidden = true
         closedBgImageYConstant = bgImageY.constant
         closedYPosition = center.y
         closedHeight = bgImageHeight.constant
@@ -224,7 +224,6 @@ extension ParallaxCell {
         // animation
         bgImageHeight.constant = cellFrame.height
         moveToCenter(duration, offset: offsetY)
-        parallaxTitle?.isHidden = true
         foregroundHidden(true, duration: duration)
     }
 
