@@ -210,7 +210,6 @@ extension ParallaxCell {
             let bgImageHeight = self.bgImageHeight else {
             return
         }
-        parallaxTitle?.isHidden = true
         closedBgImageYConstant = bgImageY.constant
         closedYPosition = center.y
         closedHeight = bgImageHeight.constant
@@ -222,12 +221,14 @@ extension ParallaxCell {
         superview.sendSubviewToBack(self)
 
         // animation
+        parallaxTitle?.isHidden = true
         bgImageHeight.constant = cellFrame.height
         moveToCenter(duration, offset: offsetY)
         foregroundHidden(true, duration: duration)
     }
 
     func closeCell(_ duration: Double, tableView _: UITableView, completion: @escaping () -> Void) {
+        self.parallaxTitle?.isHidden = false
         bgImageY?.constant = closedBgImageYConstant
         bgImageHeight?.constant = closedHeight
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: damping, initialSpringVelocity: 0, options: UIView.AnimationOptions(), animations: { [weak self] () in
@@ -235,8 +236,6 @@ extension ParallaxCell {
             self.bgImage?.superview?.layoutIfNeeded()
             self.center = CGPoint(x: self.center.x, y: self.closedYPosition)
         }, completion: { [weak self] _ in
-
-            self?.parallaxTitle?.isHidden = false
             completion()
         })
 

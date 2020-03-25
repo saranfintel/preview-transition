@@ -66,8 +66,8 @@ public extension PTTableViewController {
             }
         }
 
-        currentTextLabel = createTitleLable(currentCell)
-        currentTextLabel?.move(duration, direction: .up, completion: nil)
+//        currentTextLabel = createTitleLable(currentCell)
+//        currentTextLabel?.move(duration, direction: .up, completion: nil)
 
         currentCell.openCell(tableView, duration: duration)
         moveCells(tableView, currentCell: currentCell, duration: duration)
